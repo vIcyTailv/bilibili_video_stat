@@ -16,10 +16,12 @@ class BilibiliItem(scrapy.Item):
 
 class BiliBiliData(scrapy.Item):
     aid = scrapy.Field()
+    pubdate = scrapy.Field()
     view = scrapy.Field()
+    like = scrapy.Field()
     danmaku = scrapy.Field()
     reply = scrapy.Field()
     favorite = scrapy.Field()
     coin = scrapy.Field()
     share = scrapy.Field()
-    time = scrapy.Field()
+

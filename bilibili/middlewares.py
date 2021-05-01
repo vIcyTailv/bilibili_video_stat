@@ -57,7 +57,6 @@ class BilibiliDownloaderMiddleware(object):
         if proxy:
             proxy = proxy[0].decode()
             spider.logger.info('使用代理[%s]访问[%s]' % (proxy, request.url))
-
             request.meta['proxy'] = proxy
         else:
             spider.logger.warning('不使用代理访问[%s]' % request.url)

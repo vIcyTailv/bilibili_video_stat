@@ -4,16 +4,13 @@ import logging
 from scrapy.exceptions import CloseSpider
 from bilibili.items import BiliBiliData
 import json
-import time
 
 logger = logging.getLogger(__name__)
-
-
 class BilibiliSpiderSpider(RedisSpider):
     name = 'bilibili_spider'
-    # allowed_domains = ['bilibili.com']
+    allowed_domains = ['bilibili.com']
     # 启动爬虫的命令
-    redis_key = "bilibili_spider:strat_urls"
+    redis_key = "bilibili_spider:start_urls"
 
     def parse(self, response):
         try:
@@ -36,19 +33,20 @@ class BilibiliSpiderSpider(RedisSpider):
 
             item = BiliBiliData()
             if json_data["code"] == 0:
-                # 解析json数据，若为"--"则计为0
+                # 解析json数据，存入item对象
                 data = json_data["data"]
+                # print(data)调试查看json数据格式
                 item['aid'] = data.get("aid")
-                item['view'] = data.get("view", 0) if data.get("view", 0) != "--" else 0
-                item['danmaku'] = data.get("danmaku", 0) if data.get("danmaku", 0) != "--" else 0
-                item['reply'] = data.get("reply", 0) if data.get("reply", 0) != "--" else 0
-                item['favorite'] = data.get("favorite", 0) if data.get("favorite", 0) != "--" else 0
-                item['coin'] = data.get("coin", 0) if data.get("coin", 0) != "--" else 0
-                item['share'] = data.get("share", 0) if data.get("share", 0) != "--" else 0
-                item['time'] = time.time()
-
+                item['pubdate'] = data.get("pubdate")
+                item['view'] = data.get("stat").get("view")
+                item['like'] = data.get("stat").get("like")
+                item['danmaku'] = data.get("stat").get("danmaku")
+                item['reply'] = data.get("stat").get("reply")
+                item['favorite'] = data.get("stat").get("favorite")
+                item['coin'] = data.get("stat").get("coin")
+                item['share'] = data.get("stat").get("share")
                 yield item
 
-            logger.info("爬取完成:%s" % response.url)
         # 因logging等级设为了WARNING，则在log中增加一条完成记录
         logger.warning("完成:[%s]" % response.url)
+
