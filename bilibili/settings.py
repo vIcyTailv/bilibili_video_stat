@@ -23,7 +23,7 @@ DOWNLOAD_DELAY = 0.25
 # 每个domain并发量，设置为超大值，代表不限制
 CONCURRENT_REQUESTS_PER_DOMAIN = 100000000
 # 单个ip并发量，设置为0，代表不限制
-CONCURRENT_REQUESTS_PER_IP = 8
+CONCURRENT_REQUESTS_PER_IP = 0
 
 # Disable cookies (enabled by default)
 # 禁用cookies
@@ -137,6 +137,6 @@ REDIS_PARAMS  = {"password":"123456",}
 
 # 设置爬取限制，用作调试爬虫是否正常运行（主要为检测ip被封、api是否有效）
 # CLOSESPIDER_TIMEOUT = 30
-CLOSESPIDER_ITEMCOUNT = 800
+CLOSESPIDER_ITEMCOUNT = 5000
 # CLOSESPIDER_ERROROUT = 10
 # CLOSESPIDER_PAGEOUT = 5
